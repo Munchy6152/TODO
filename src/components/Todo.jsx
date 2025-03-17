@@ -5,7 +5,7 @@ import Todoitems from './Todoitems'
 const Todo = () => {
 
   const [todoList, setTodoList] = useState(localStorage.getItem('todos')?
-   JSON.parse(localStorage.getItem('todos')) : []);
+  JSON.parse(localStorage.getItem('todos')) : []);
   const inputRef = useRef();
 
 
@@ -64,7 +64,7 @@ const Todo = () => {
 
 <div className='flex items-center my-7 bg-gray-200 rounded-full'>
   <input ref={inputRef} className='bg-transparent border-0 outline-none flex-1 h-14 pl-14 pr-2
-   placeholder:text-slate-600' 
+  placeholder:text-slate-600' 
   type='text' placeholder='Add Your Task Here'></input>
   <button onClick={add} className='border-none rounded-full
   bg-pink-600 w-32 h-14 text-white text-lg font-medium cursor-pointer'>Add + </button>
@@ -75,8 +75,8 @@ const Todo = () => {
 
 <div>
   {todoList.map ((item,index)=>{
-    return <Todoitems key={index} text={item.text} id={item.id}
-     isComplete={item.isComplete} deleteTodo={deleteTodo} toggle={toggle}/>
+  return <Todoitems key={index} text={item.text} id={item.id}
+    isComplete={item.isComplete} deleteTodo={deleteTodo} toggle={toggle}/>
 
   })}
 </div>
