@@ -1,10 +1,11 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import list from '../assets/list.png'
-import Todoitems from './TodoItems'
+import Todoitems from './Todoitems'
 
 const Todo = () => {
 
-  const [todoList, setTodoList] = useState([]);
+  const [todoList, setTodoList] = useState(localStorage.getItem('todos')?
+   JSON.parse(localStorage.getItem('todos')) : []);
   const inputRef = useRef();
 
 
@@ -15,7 +16,7 @@ const Todo = () => {
       return null;
 
     }
-   
+  
     const newTodo = {
       id: Date.now(),
       text: inputText,
@@ -27,11 +28,25 @@ const Todo = () => {
   }
 
   const deleteTodo = (id) =>{
-    setTodoList((prvTodos) =>{ 
-      return prvTodos.filter((todo) => todo.id !== id)
+    setTodoList((prevTodos) =>{ 
+      return prevTodos.filter((todo) => todo.id !== id)
     })
   }
 
+  const toggle = (id)=>{
+    setTodoList((prevTodos)=>{
+      return prevTodos.map((todo)=>{
+        if (todo.id === id){
+          return {...todo, isComplete: !todo.isComplete}
+        }
+        return todo;
+      })
+    })
+  }
+
+  useEffect(()=>{
+    localStorage.setItem("todos", JSON.stringify(todoList));  
+  },[todoList])
 
 
   return (
@@ -41,8 +56,8 @@ const Todo = () => {
   {/*---title--- */}
 
   <div className='flex items-center mt-7 gap-2'>
-    <img className='w-8' src={list} alt=''></img>
-    <h1 className='text-3xl font-semibold'>To-Do List</h1>
+    
+    <h1 className='text-2xl font-semibold'>To-Do List</h1>
   </div>
 
 {/*---input box--- */}
@@ -52,7 +67,7 @@ const Todo = () => {
    placeholder:text-slate-600' 
   type='text' placeholder='Add Your Task Here'></input>
   <button onClick={add} className='border-none rounded-full
-  bg-orange-600 w-32 h-14 text-white text-lg font-medium cursor-pointer'>Add + </button>
+  bg-pink-600 w-32 h-14 text-white text-lg font-medium cursor-pointer'>Add + </button>
 </div>
 
 
@@ -61,7 +76,7 @@ const Todo = () => {
 <div>
   {todoList.map ((item,index)=>{
     return <Todoitems key={index} text={item.text} id={item.id}
-     isComplete={item.isComplete} deleteTodo={deleteTodo}/>
+     isComplete={item.isComplete} deleteTodo={deleteTodo} toggle={toggle}/>
 
   })}
 </div>
