@@ -1,6 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import list from '../assets/list.png'
-import Todoitems from './Todoitems'
+import Todoitems from './TodoItems'
 
 const Todo = () => {
 
